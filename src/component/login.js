@@ -1,10 +1,11 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react"
 import { useNavigate, Link } from "react-router-dom"
+
 function Login() {
-    const history = useNavigate();
-    const [isSignedIn, setIsSignedIn] = useState("");
-    const [email, setEmail] = useState('');
+    const navigate = useNavigate();
+    const [isSignedIn, setIsSignedIn] = useState(false);
+    const [email, setEmail] = useState();
     const [password, setPassword] = useState('');
 
     async function signIn(e) {
@@ -17,8 +18,7 @@ function Login() {
             })
                 .then(res => {
                     if (res.data === "exist") {
-                        setIsSignedIn(true);
-                        history("/homePage", { state: { id: email } })
+                        setIsSignedIn(!isSignedIn);
                     }
                     else if (res.data === "notexist") {
                         alert("Wrong Email or Password")
@@ -35,6 +35,13 @@ function Login() {
             alert('Error Signing In')
         }
     }
+
+    useEffect(() => {
+        console.log(isSignedIn)
+        if (isSignedIn) {
+            navigate("/homePage", { state: { id: email } })
+        }
+    }, [isSignedIn])
 
     return (
         isSignedIn !== true ?
@@ -56,6 +63,7 @@ function Login() {
                 <Link to="/signup">Signup Page</Link>
 
             </div> : null
+
     );
 }
 

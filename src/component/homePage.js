@@ -1,5 +1,5 @@
 import React from "react"
-import Schedule from './login';
+import Schedule from './schedule';
 import Medform from './medform';
 import { useLocation, useNavigate } from 'react-router-dom';
 
